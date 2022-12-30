@@ -3,7 +3,16 @@ package com.example.redditapp;
 public class RedditPost {
     private String name;
     private String title;
-    private String imageUrl;
+    private String thumbnailUrl;
+    private String fullSizeMediaUrl;
+
+    public String getFullSizeMediaUrl() {
+        return fullSizeMediaUrl;
+    }
+
+    public void setFullSizeMediaUrl(String fullSizeMediaUrl) {
+        this.fullSizeMediaUrl = fullSizeMediaUrl;
+    }
 
     public String getTitle() {
         return title;
@@ -13,12 +22,12 @@ public class RedditPost {
         this.title = title;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public String getThumbnailUrl() {
+        return thumbnailUrl;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setThumbnailUrl(String thumbnailUrl) {
+        this.thumbnailUrl = thumbnailUrl;
     }
 
     public String getName() {

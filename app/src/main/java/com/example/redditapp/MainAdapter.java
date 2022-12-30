@@ -1,6 +1,8 @@
 package com.example.redditapp;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.List;
+
+import static androidx.core.content.ContextCompat.startActivity;
 
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
     private List<RedditPost> redditPostList;
@@ -33,9 +37,14 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         RedditPost redditPost = redditPostList.get(position);
-        Glide.with(activity).load(redditPost.getImageUrl()).diskCacheStrategy(DiskCacheStrategy.ALL)
+        Glide.with(activity).load(redditPost.getThumbnailUrl()).diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(holder.imageView);
         holder.textView.setText(redditPost.getName());
+        holder.imageView.setOnClickListener(v -> {
+            Uri uri = Uri.parse(redditPost.getFullSizeMediaUrl());
+            Intent intent = new Intent(Intent.ACTION_VIEW,uri);
+            startActivity(v.getContext(),intent,intent.getExtras());
+        });
     }
 
     @Override
