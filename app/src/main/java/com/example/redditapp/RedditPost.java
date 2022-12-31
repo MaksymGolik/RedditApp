@@ -10,6 +10,15 @@ public class RedditPost {
     private String fullSizeMediaUrl;
     private String authorName;
     private long createdAt;
+    private int numComments;
+
+    public int getNumComments() {
+        return numComments;
+    }
+
+    public void setNumComments(int numComments) {
+        this.numComments = numComments;
+    }
 
     public long getCreatedAt() {
         return createdAt;

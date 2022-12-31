@@ -7,7 +7,6 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
@@ -54,7 +53,10 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
         RedditPost redditPost = redditPostList.get(position);
         Glide.with(activity).load(redditPost.getThumbnailUrl()).diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(holder.imageView);
-        holder.author.setText(String.valueOf(redditPost.getHoursAgo()));
+        holder.authorCreated.setText(new StringBuffer(activity.getBaseContext().getString(R.string.concat_author)).append(" ")
+                .append(redditPost.getAuthorName()).append(" ").append(redditPost.getHoursAgo()).append(" ")
+                .append(activity.getBaseContext().getString(R.string.concat_created)));
+        holder.comments.setText(String.valueOf(redditPost.getNumComments()));
 
         holder.imageView.setOnClickListener(v -> {
             Uri uri = Uri.parse(redditPost.getFullSizeMediaUrl());
@@ -103,15 +105,17 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
-        TextView author;
+        TextView authorCreated;
         TextView save;
+        TextView comments;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             imageView = itemView.findViewById(R.id.image_view);
-            author = itemView.findViewById(R.id.author);
+            authorCreated = itemView.findViewById(R.id.author_created);
             save = itemView.findViewById(R.id.save);
+            comments = itemView.findViewById(R.id.comments);
         }
 
 

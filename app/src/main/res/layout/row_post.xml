@@ -1,28 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="4sp">
 
     <RelativeLayout android:layout_width="match_parent"
-                android:layout_height="350sp"
+                android:layout_height="375sp"
                 android:orientation="horizontal">
 
         <TextView
-                android:layout_width="100sp"
-                android:layout_height="25sp"
-                android:id="@+id/author"
+                android:layout_width="match_parent"
+                android:layout_height="50sp"
+                android:id="@+id/author_created"
                 android:layout_marginTop="25sp"
                 android:layout_marginStart="25sp"
-                android:gravity="center"/>
+                android:layout_marginEnd="25sp"
+                app:fontFamily="@font/autour_one"/>
 
         <ImageView android:layout_width="match_parent"
                    android:layout_height="220sp"
                    android:id="@+id/image_view"
                    android:scaleType="centerCrop"
                    android:clickable="true"
-                   android:layout_below="@+id/author"
+                   android:layout_below="@+id/author_created"
                    android:focusable="true" android:layout_marginTop="25sp" android:layout_marginStart="25sp"
                    android:layout_marginEnd="25sp" android:layout_marginBottom="20sp"/>
 
@@ -35,7 +36,27 @@
                 android:gravity="center"
                 android:textAlignment="center"
                 android:text="@string/save"
-                android:textSize="20sp"/>
+                android:textSize="20sp"
+                app:fontFamily="@font/autour_one"/>
+
+        <TextView
+                android:text="TextView"
+                android:layout_below="@+id/image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="25sp"
+                android:textSize="20sp"
+                android:layout_marginStart="65sp"
+                app:fontFamily="@font/autour_one"
+                android:id="@+id/comments"/>
+        <ImageView
+                android:layout_below="@+id/image_view"
+                android:layout_marginStart="25sp"
+                android:layout_width="30sp"
+                android:layout_height="30sp"
+                android:id="@+id/comment_icon"
+                app:srcCompat="@drawable/comments_128"/>
+
+
     </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
