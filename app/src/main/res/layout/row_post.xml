@@ -3,26 +3,39 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp">
+        android:layout_marginTop="4sp">
 
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-        <ImageView
-                android:layout_width="150dp"
-                android:layout_height="80dp"
-                android:id="@+id/image_view"
-                android:scaleType="centerCrop"
-                android:clickable="true"
-                android:focusable="true"/>
+    <RelativeLayout android:layout_width="match_parent"
+                android:layout_height="350sp"
+                android:orientation="horizontal">
+
         <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/text_view"
-                android:padding="8dp"
+                android:layout_width="100sp"
+                android:layout_height="25sp"
+                android:id="@+id/author"
+                android:layout_marginTop="25sp"
+                android:layout_marginStart="25sp"
                 android:gravity="center"/>
 
-    </LinearLayout>
+        <ImageView android:layout_width="match_parent"
+                   android:layout_height="220sp"
+                   android:id="@+id/image_view"
+                   android:scaleType="centerCrop"
+                   android:clickable="true"
+                   android:layout_below="@+id/author"
+                   android:focusable="true" android:layout_marginTop="25sp" android:layout_marginStart="25sp"
+                   android:layout_marginEnd="25sp" android:layout_marginBottom="20sp"/>
 
-</androidx.cardview.widget.CardView>
+        <TextView
+                android:layout_width="100sp"
+                android:layout_height="25sp"
+                android:id="@+id/save"
+                android:layout_below="@+id/image_view"
+                android:layout_marginStart="265sp"
+                android:gravity="center"
+                android:textAlignment="center"
+                android:text="@string/save"
+                android:textSize="20sp"/>
+    </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>

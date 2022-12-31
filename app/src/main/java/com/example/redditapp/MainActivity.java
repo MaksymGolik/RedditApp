@@ -1,7 +1,10 @@
 package com.example.redditapp;
 
+import android.content.pm.PackageManager;
+import android.text.format.Time;
 import android.view.View;
 import android.widget.ProgressBar;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.core.widget.NestedScrollView;
@@ -16,7 +19,10 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -90,6 +96,8 @@ public class MainActivity extends AppCompatActivity {
             redditPost.setName(postData.getString("name"));
             redditPost.setTitle(postData.getString("title"));
             redditPost.setThumbnailUrl(postData.getString("thumbnail"));
+            redditPost.setAuthorName(postData.getString("author"));
+            redditPost.setCreatedAt(postData.getLong("created"));
             if(postData.has("secure_media") && !postData.isNull("secure_media")
                     && postData.getJSONObject("secure_media").has("reddit_video")
                     && !postData.getJSONObject("secure_media").isNull("reddit_video")

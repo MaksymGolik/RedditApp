@@ -1,10 +1,35 @@
 package com.example.redditapp;
 
+import java.time.LocalDateTime;
+import java.util.Date;
+
 public class RedditPost {
     private String name;
     private String title;
     private String thumbnailUrl;
     private String fullSizeMediaUrl;
+    private String authorName;
+    private long createdAt;
+
+    public long getCreatedAt() {
+        return createdAt;
+    }
+    public int getHoursAgo(){
+        System.out.println(new Date().getTime()+" "+createdAt);
+        return (int)(new Date().getTime()-createdAt*1000)/(60*60*1000);
+    }
+
+    public void setCreatedAt(long createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public String getAuthorName() {
+        return authorName;
+    }
+
+    public void setAuthorName(String authorName) {
+        this.authorName = authorName;
+    }
 
     public String getFullSizeMediaUrl() {
         return fullSizeMediaUrl;
