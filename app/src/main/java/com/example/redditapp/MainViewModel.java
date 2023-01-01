@@ -11,9 +11,7 @@ public class MainViewModel extends ViewModel {
     String after;
     List<RedditPost> redditPostList = new ArrayList<>();
 
-
     public void addRedditPost(RedditPost redditPost){
         redditPostList.add(redditPost);
     }
-
 }

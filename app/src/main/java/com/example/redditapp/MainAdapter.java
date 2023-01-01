@@ -93,11 +93,6 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
         });
     }
 
-//    private void saveImage(String thumbnailUrl) {
-//        Uri uri;
-//        ContentResolver contentResolver = context
-//    }
-
     @Override
     public int getItemCount() {
         return redditPostList.size();
@@ -117,7 +112,5 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
             save = itemView.findViewById(R.id.save);
             comments = itemView.findViewById(R.id.comments);
         }
-
-
     }
 }
