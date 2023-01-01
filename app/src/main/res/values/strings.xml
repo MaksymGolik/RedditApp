@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">RedditApp</string>
-    <string name="posts">data</string>
-    <string name="posts_array">children</string>
     <string name="save">Save</string>
     <string name="concat_author">Posted by</string>
     <string name="concat_created">hours ago</string>

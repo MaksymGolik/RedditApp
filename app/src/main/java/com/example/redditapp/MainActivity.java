@@ -1,5 +1,6 @@
 package com.example.redditapp;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,18 +34,19 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycler_view);
         progressBar = findViewById(R.id.progress_bar);
         mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
-        mainAdapter = new MainAdapter(mainViewModel.redditPostList, MainActivity.this);
+        mainAdapter = new MainAdapter(mainViewModel.getRedditPostList(), MainActivity.this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(mainAdapter);
 
-        if(mainViewModel.redditPostList.isEmpty()) getRedditPosts(mainViewModel.limit, mainViewModel.after);
+        if(mainViewModel.getRedditPostList().isEmpty()) getRedditPosts(mainViewModel.getLimit(), mainViewModel.getAfter());
 
         nestedScrollView.setOnScrollChangeListener(
                 (NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
             if(scrollY == v.getChildAt(0).getMeasuredHeight()-v.getMeasuredHeight()){
-                mainViewModel.after = mainViewModel.redditPostList.get(mainViewModel.redditPostList.size()-1).getName();
+                mainViewModel.setAfter(mainViewModel.getRedditPostList()
+                        .get(mainViewModel.getRedditPostList().size()-1).getName());
                 progressBar.setVisibility(View.VISIBLE);
-                getRedditPosts(mainViewModel.limit, mainViewModel.after);
+                getRedditPosts(mainViewModel.getLimit(), mainViewModel.getAfter());
             }
         });
     }
@@ -64,21 +66,21 @@ public class MainActivity extends AppCompatActivity {
                         JSONObject jsonObject = new JSONObject(response.body());
                         parseRedditJson(jsonObject);
                     } catch (JSONException e) {
-                        throw new RuntimeException(e);
+                        Log.e("onResponse", e.getMessage());
                     }
                 }
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-
+                Log.e("onFailure",t.getMessage());
             }
         });
     }
 
     private void parseRedditJson(JSONObject jsonObject) throws JSONException {
-        JSONArray jsonArray = jsonObject.getJSONObject(getString(R.string.posts))
-                .getJSONArray(getString(R.string.posts_array));
+        JSONArray jsonArray = jsonObject.getJSONObject("data")
+                .getJSONArray("children");
         for(int i = 0; i<jsonArray.length(); i++){
             JSONObject post = jsonArray.getJSONObject(i);
             JSONObject postData = post.getJSONObject("data");
@@ -102,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
             } else redditPost.setFullSizeMediaUrl(postData.getString("thumbnail"));
             mainViewModel.addRedditPost(redditPost);
         }
-        mainAdapter = new MainAdapter(mainViewModel.redditPostList, MainActivity.this);
+        mainAdapter = new MainAdapter(mainViewModel.getRedditPostList(), MainActivity.this);
         recyclerView.setAdapter(mainAdapter);
     }
 }
