@@ -38,14 +38,21 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(mainAdapter);
 
+        // If list of reddit posts in mainViewModel empty then
+        // first call getRedditPosts method to download first posts into list
         if(mainViewModel.getRedditPostList().isEmpty()) getRedditPosts(mainViewModel.getLimit(), mainViewModel.getAfter());
+
 
         nestedScrollView.setOnScrollChangeListener(
                 (NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+            // When reach the last reddit post on the list
             if(scrollY == v.getChildAt(0).getMeasuredHeight()-v.getMeasuredHeight()){
+                // Update after value for further pagination
                 mainViewModel.setAfter(mainViewModel.getRedditPostList()
                         .get(mainViewModel.getRedditPostList().size()-1).getName());
+                // Show progress bar
                 progressBar.setVisibility(View.VISIBLE);
+                // Call getRedditPosts method to download data about next reddit posts
                 getRedditPosts(mainViewModel.getLimit(), mainViewModel.getAfter());
             }
         });
@@ -60,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
+                // When condition is met -> hiding progress bar, parsing new retrieved posts into model
                 if(response.isSuccessful() && response.body()!=null) {
                     progressBar.setVisibility(View.GONE);
                     try {
@@ -91,6 +99,8 @@ public class MainActivity extends AppCompatActivity {
             redditPost.setAuthorName(postData.getString("author"));
             redditPost.setCreatedAt(postData.getLong("created"));
             redditPost.setNumComments(postData.getInt("num_comments"));
+
+            // Getting a link to a video if the reddit post contains a video, not a picture
             if(postData.has("secure_media") && !postData.isNull("secure_media")
                     && postData.getJSONObject("secure_media").has("reddit_video")
                     && !postData.getJSONObject("secure_media").isNull("reddit_video")
@@ -99,9 +109,15 @@ public class MainActivity extends AppCompatActivity {
             ){
                 redditPost.setFullSizeMediaUrl(postData.getJSONObject("secure_media")
                         .getJSONObject("reddit_video").getString("fallback_url"));
-            } else if(postData.has("url_overridden_by_dest")&&!postData.isNull("url_overridden_by_dest")) {
+            }
+            // Getting a link to an image in a wider resolution
+            else if(postData.has("url_overridden_by_dest")&&!postData.isNull("url_overridden_by_dest")) {
                 redditPost.setFullSizeMediaUrl(postData.getString("url_overridden_by_dest"));
-            } else redditPost.setFullSizeMediaUrl(postData.getString("thumbnail"));
+            }
+            // If not a video, and there is no link to a larger resolution image, then put a link to a thumbnail
+            else redditPost.setFullSizeMediaUrl(postData.getString("thumbnail"));
+
+            // Add parsed reddit post into redditPostList
             mainViewModel.addRedditPost(redditPost);
         }
         mainAdapter = new MainAdapter(mainViewModel.getRedditPostList(), MainActivity.this);
