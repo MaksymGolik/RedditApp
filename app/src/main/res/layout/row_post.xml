@@ -6,17 +6,17 @@
         android:layout_marginTop="4sp">
 
     <RelativeLayout android:layout_width="match_parent"
-                android:layout_height="375sp"
+                android:layout_height="350sp"
                 android:orientation="horizontal">
 
         <TextView
                 android:layout_width="match_parent"
-                android:layout_height="50sp"
+                android:layout_height="25sp"
                 android:id="@+id/author_created"
                 android:layout_marginTop="25sp"
                 android:layout_marginStart="25sp"
                 android:layout_marginEnd="25sp"
-                app:fontFamily="@font/autour_one"/>
+                app:fontFamily="@font/open_sans"/>
 
         <ImageView android:layout_width="match_parent"
                    android:layout_height="220sp"
@@ -37,7 +37,7 @@
                 android:textAlignment="center"
                 android:text="@string/save"
                 android:textSize="20sp"
-                app:fontFamily="@font/autour_one"/>
+                app:fontFamily="@font/open_sans"/>
 
         <TextView
                 android:text="TextView"
@@ -46,7 +46,7 @@
                 android:layout_height="25sp"
                 android:textSize="20sp"
                 android:layout_marginStart="65sp"
-                app:fontFamily="@font/autour_one"
+                app:fontFamily="@font/open_sans"
                 android:id="@+id/comments"/>
         <ImageView
                 android:layout_below="@+id/image_view"
