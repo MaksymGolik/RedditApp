@@ -5,6 +5,7 @@ import android.widget.ProgressBar;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.core.widget.NestedScrollView;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import org.json.JSONArray;
@@ -23,11 +24,8 @@ public class MainActivity extends AppCompatActivity {
     NestedScrollView nestedScrollView;
     RecyclerView recyclerView;
     ProgressBar progressBar;
-    List<RedditPost> redditPostList = new ArrayList<>();
     MainAdapter mainAdapter;
-    
-    String after;
-    int limit = 10;
+    MainViewModel mainViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,18 +35,19 @@ public class MainActivity extends AppCompatActivity {
         nestedScrollView = findViewById(R.id.scrollable);
         recyclerView = findViewById(R.id.recycler_view);
         progressBar = findViewById(R.id.progress_bar);
-        mainAdapter = new MainAdapter(redditPostList, MainActivity.this);
+        mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
+        mainAdapter = new MainAdapter(mainViewModel.redditPostList, MainActivity.this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(mainAdapter);
 
-        getRedditPosts(limit, after);
+        if(mainViewModel.redditPostList.isEmpty()) getRedditPosts(mainViewModel.limit, mainViewModel.after);
 
         nestedScrollView.setOnScrollChangeListener(
                 (NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
             if(scrollY == v.getChildAt(0).getMeasuredHeight()-v.getMeasuredHeight()){
-                after = redditPostList.get(redditPostList.size()-1).getName();
+                mainViewModel.after = mainViewModel.redditPostList.get(mainViewModel.redditPostList.size()-1).getName();
                 progressBar.setVisibility(View.VISIBLE);
-                getRedditPosts(limit,after);
+                getRedditPosts(mainViewModel.limit, mainViewModel.after);
             }
         });
     }
@@ -104,9 +103,9 @@ public class MainActivity extends AppCompatActivity {
             } else if(postData.has("url_overridden_by_dest")&&!postData.isNull("url_overridden_by_dest")) {
                 redditPost.setFullSizeMediaUrl(postData.getString("url_overridden_by_dest"));
             } else redditPost.setFullSizeMediaUrl(postData.getString("thumbnail"));
-            redditPostList.add(redditPost);
+            mainViewModel.addRedditPost(redditPost);
         }
-        mainAdapter = new MainAdapter(redditPostList, MainActivity.this);
+        mainAdapter = new MainAdapter(mainViewModel.redditPostList, MainActivity.this);
         recyclerView.setAdapter(mainAdapter);
     }
 }
