@@ -23,7 +23,6 @@ public class RedditPost {
         return createdAt;
     }
     public int getHoursAgo(){
-        System.out.println(new Date().getTime()+" "+createdAt);
         return (int)(new Date().getTime()-createdAt*1000)/(60*60*1000);
     }
 
